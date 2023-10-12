@@ -13,4 +13,3 @@ More info soon.
 The project is a classic multipage application that uses standard HTML, CSS and vanilla Javascript, more information can be found 
 on the [wiki](https://github.com/MadLadSquad/LitTok/wiki/) or on the 
 [MadLadSquad site](https://madladsquad.com/docs/LitTok/Home).
-
