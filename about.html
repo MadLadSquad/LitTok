@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{ include Components/head.tmpl.html }}
+		<title class="site-title">About | {{ trademark }} </title>
+	</head>
+	<body>
+		{{ include Components/header.tmpl.html }}
+		<main>
+			<h1>About {{ trademark }}</h1>
+			<p>
+				{{ trademark }} is a website, that is designed to clone TikTok, to make it easier for zoomers with low attention spans to read books.
+			</p>
+			<h2>Credits</h2>
+			<p>
+				We want to thank the following people for helping with the development of the application:
+			</p>
+			<ol>
+				<li><a href="https://github.com/ProHunter67BG">Hristian Rusev</a> for providing German translations</li>
+				<li><a href="https://github.com/Neyko641">Neyko Naydenov</a> for providing Japanese translations</li>
+				<li><a href="https://github.com/nick-1666">Nick-1666</a> for helping with UI and UX issues</li>
+			</ol>
+
+			<h1>More like {{ trademark }}</h1>
+			<p><a href="https://madladsquad.com/">MadLad Squad</a> develops more than just LitTok, check out the following applications and libraries<p/>
+			<ol>
+				<li><a href="https://youyin.madladsquad.com">Youyin</a> - A website for learning to write in different writing systems</li>
+				<li><a href="https://bgks.madladsquad.com">BGKS</a> - A website for correcting broken grammar, punctuation and spelling</li>
+				<li>
+					<a href="https://github.com/MadLadSquad/UntitledIBusHandwriting">UntitledIBusHandwriting</a> - A handwriting plugin for <a href="https://en.wikipedia.org/wiki/Intelligent_Input_Bus">ibus</a>
+				</li>
+				<li><a href="https://github.com/MadLadSquad/hanzi-writer-data-youyin">hanzi-writer-data-youyin</a> - All character data used in Youyin in one place</li>
+				<li><a href="https://madladsquad.com/untitled-desktop/subprojects/i18n">i18n project</a> - The MadLad Squad i18n(internationalisation) project</li>
+			</ol>
+			<hr>
+		</main>
+		{{ include Components/footer.tmpl.html }}
+	</body>
+</html>

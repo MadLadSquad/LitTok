@@ -1,0 +1,134 @@
+:root {
+	--deck-card-active-colour: #6f8f72;
+	--deck-card-header-colour: #555555;
+}
+
+#deck, #deck-community {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.card {
+	border: 1px solid var(--main-border-colour);
+}
+
+/* I totally didn't cop this from somewhere I don't even remember */
+.card-button-edit {
+	color: var(--main-text-colour);
+	background-color: var(--main-accent-colour);
+	border-color: var(--deck-card-active-colour);
+
+	margin-top: 12px;
+	margin-bottom: 12px;
+
+	display: inline-block;
+	padding: 6px 12px;
+	text-align: center;
+	vertical-align: middle;
+	user-select: none;
+	-webkit-user-select: none;
+	background-image: none;
+	border: 2px solid transparent;
+	border-radius: 4px;
+	cursor: pointer;
+	touch-action: manipulation;
+}
+
+.card-button-edit:hover {
+	color: var(--main-text-colour);
+	background-color: var(--deck-card-active-colour);
+	border-color: var(--deck-card-active-colour);
+}
+
+.card-button-edit:active {
+	border-color: var(--main-accent-colour);
+	background-color: var(--deck-card-active-colour);
+}
+
+.large-button-text {
+	font-size: 32px;
+	border: 6px solid transparent;
+	border-radius: 12px;
+}
+
+button {
+	text-transform: visible;
+	overflow: visible;
+	-webkit-appearance: button;
+}
+
+.small-button {
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+main {
+	width: 100%;
+}
+
+ol {
+	list-style: none;
+	text-align: left;
+	padding-right: 40px;
+}
+
+ol li {
+	padding-top: 0.25rem;
+	text-decoration: default;
+	list-style-type: decimal;
+}
+
+/* override the style of main.css specifically for the deck page, since it doesn't look good with a border */
+.header-deck {
+	border: 0px;
+}
+
+#new-card-header {
+	font-size: 7.5rem;
+	color: var(--deck-card-header-colour);
+}
+
+#fileupload {
+	display: block;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+#input-mode {
+	padding: 0;
+	margin: auto;
+	overflow: hidden;
+	float: left;
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	justify-content: center;
+}
+
+#input-mode p {
+	margin-right: 6px;
+}
+
+* {
+	font-family: 'Sofia Sans', sans-serif;
+}
+
+input[type=text]::before, input[type=text]::after, input[type=text] {
+	box-sizing: border-box;
+}
+
+input[type=text] {
+	font-size: 16px;
+	font-family: inherit;
+	padding: 4 0 0 0;
+	background-color: var(--main-background-colour);
+	border: 1px solid var(--main-accent-colour);
+	border-radius: 4px;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{ include Components/head.tmpl.html }}
+		<link rel="stylesheet" href="./deck.css">
+
+		<title class="site-title">Deck | {{ trademark }}</title>
+	</head>
+	<body>
+		{{ include Components/header.tmpl.html }}
+		<main id="deck">
+			<script src="https://cdn.jsdelivr.net/npm/hanzi-writer/dist/hanzi-writer.min.js"></script>
+			<div id="profile-card" class="card centered">
+				<h3>Profile Statistics</h3>
+				<p id="total-sessions-field">Total Sessions: </p>
+				<p id="streak-field">Streak: </p>
+				<p id="deck-card-num-field">Cards in deck: </p>
+				<p id="last-session-date-field">Last session: </p>
+				<p id="average-knowledge-level-field">Average knowledge level: </p>
+				<p id="average-session-length-field">Average session length: </p>
+				<p id="time-spent-in-sessions-field">Time spent in sessions: </p>
+			</div>
+			<div id="new-card" class="card centered">
+				<h1 id="new-card-header">+</h1>
+				<p>Add a new card to the deck</p>
+				<button id="new-card-button" class="card-button-edit" onclick="location.href='./deck-edit-card.html?new'">New card</button>
+				<br>
+				<input type="file" id="fileupload"><button id="import-deck-button" class="card-button-edit">Import</button></input>
+				<button id="export-deck-button" class="card-button-edit">Export</button>
+
+				<button id="clear-deck-button" class="card-button-edit">Clear</button>
+				<button id="marketplace-deck-button" class="card-button-edit" onclick="location.href='./marketplace.html'">Marketplace</button>
+			</div>
+			<!-- Data will be inserted dynamically by the Javascript here from deck.js file -->
+		</main>
+		{{ include Components/footer.tmpl.html }}
+	</body>
+	<script src="./deck.js"></script>
+</html>

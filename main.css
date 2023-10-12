@@ -1,0 +1,168 @@
+:root {
+	--main-background-colour: #ffffff;
+	--main-accent-colour: #77ad78;
+	--main-border-colour: #CCC;
+	--main-text-colour: #000000;
+}
+
+* {
+	background-color: var(--main-background-colour);
+	accent-color: var(--main-accent-colour);
+}
+
+html {
+	height: 100%;
+}
+
+#main-body {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+h1, h2, h3, h4, h5, h6, p, li {
+	font-family: 'Sofia Sans', sans-serif;
+	font-size: 18px;
+}
+
+a {
+	text-decoration: none;
+	color: var(--main-accent-colour);
+}
+
+ul, footer {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+/* Make the footer and all list items in unordered lists inline with left alignment */
+ul li, footer {
+	float: left;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+/* Basically the styling for the text on the top bar */
+ul li a {
+	display: block;
+	color: var(--main-accent-colour);
+	text-align: center;
+	padding: 0 24px 0 24px;
+	text-decoration: none;
+	font-size: 32px;
+	line-height: 1.5;
+}
+
+#main-page-text {
+	
+}
+
+#main-page {
+	flex: 1 1 auto;
+	display: grid;
+	gap: 0rem;
+	grid-template-columns: 25% 50% 25%;
+	grid-auto-rows: 100%;
+}
+
+/* This may cause problems, check out main-page.js on top of the definition of the "getDrawElementHeight" function */
+@media (orientation: portrait) {
+	#main-page {
+		display: block;
+	}
+}
+
+/* Define uniform styling for footer elements */
+footer p, footer select {
+	padding: 0 0.33rem 0 0.33rem;
+	font-size: 18px;
+	color: var(--main-text-colour);
+}
+
+select::before, select::after {
+	box-sizing: border-box;
+}
+
+/* Make the select members shrink to fit since they would take too much space */
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-color: transparent;
+	border: 1px solid var(--main-accent-colour);
+	border-radius: 4px;
+	font-family: inherit;
+	font-size: inherit;
+	cursor: inherit;
+	line-height: inherit;
+	z-index: 1;
+	outline: none;
+	box-sizing: border-box;
+
+	padding: 1 1 1 1;
+	margin: 0 0 0 0;
+	max-width: max-content;
+	resize: horizontal;
+}
+
+select::-ms-expand {
+	display: none;
+}
+
+option {
+	display: flex;
+	min-width: 0;
+	flex-direction: row;
+	border-color: red;
+	box-sizing: border-box;
+}
+
+/* Style the hr element is stupid can confirm, why have an hr? because a border on the footer will break */
+#main-page-hr {
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	border: 0;
+	border-top: 1px solid var(--main-border-colour);
+	background-color: var(--main-border-colour);
+}
+
+
+/* Add a border to make the user not think or be distracted by the titlebar */
+header {
+	border-bottom: 1px solid var(--main-border-colour);
+}
+
+#site-title {
+	color: var(--main-text-colour);
+}
+
+#coming-soon-header {
+	font-size: 3vw;
+}
+
+#coming-soon-text {
+	font-size: 1.5vw;
+}
+
+/* Make the 404 emoji take up more or less the whole page */
+#err-404-emoji {
+	font-size: 18vw;
+}
+
+/* The generic centered class */
+.centered {
+	text-align: center;
+}
+
+.vcentered {
+	margin: auto;
+}
+
+footer {
+	flex: 0 1 content;
+}
