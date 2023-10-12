@@ -3,8 +3,8 @@
 [![trello](https://img.shields.io/badge/Trello-UDE-blue])](https://trello.com/b/HmfuRY2K/untitleddesktop)
 [![Discord](https://img.shields.io/discord/717037253292982315.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/4wgH8ZE)
 
-The source code for the LitTok website. Due to the low attention span of Gen Z, we decided to make this absolutely cursed application, to help them read books. Yes,
-this is a TikTok clone... for reading.
+The source code for the LitTok website. Due to the low attention span of Gen Z, we decided to make this absolutely cursed application, to help them read books 🤦‍♂️. Yes,
+this is a TikTok clone... for reading 🤦‍♂️.
 
 ## TODO
 More info soon.
