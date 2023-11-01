@@ -3,18 +3,45 @@
 	<head>
 		{{ include Components/head.tmpl.html }}
 		<link rel="stylesheet" href="./deck.css" type="text/css">
-		<title class="site-title">{{ trademark }}</title>
+		<title class="site-title">{{ trademark }} </title>
 	</head>
-	<body data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" spellcheck="false" id="main-body">
+	<body data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" spellcheck="false">
 		{{ include Components/header.tmpl.html }}
 		<main id="main-page" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" spellcheck="false">
-			<p id="main-page-left-panel">This is the left side-panel</p>
-			<p id="main-page-text">
-				Още по-строго се отнасяше към ония, които изоставяха училището. Сам остал прост, Марко обичаше учението и учените. Той беше от реда на ония родолюбци, жъдни ревнители на новото умствено движение, с грижите на които, в късо време, България биде засеяна с училища. Той имаше доста мъгляво понятие за практическата облага, която можеше знанието да донесе на тоя народ от земледелци, занаятчии и търговци. Марко гледаше угрижено как животът не даваше ни работа, ни хляб на ония, които излазяха от училище. Но той чувствуваше, със сърцето разбираше, че в науката се крие някаква тайнствена сила, която ще промени света.
-			</p>
-			<p id="main-page-right-panel">This is the right side-panel</p>
+			<section id="main-page-info-container">
+				<div id="phrase-info-widget">
+					<p id="phrase-info-widget-spelling">{{ _ phrase-info-widget-spelling }}</p>
+					<p id="phrase-info-widget-errors">{{ _ phrase-info-widget-errors {{ list 0/0 0 }} }}</p>
+					<p>{{ _ character-info-widget-def-p }}</p>
+					<ol id="phrase-info-widget-info">
+						<li>{{ _ character-info-widget-info-default }}</li>
+					</ol>
+				</div>
+				<div id="character-info-widget">
+					<p id="character-info-widget-spelling">{{ _ character-info-widget-spelling }}</p>
+					<p id="character-info-widget-errors">{{ _ character-info-widget-errors {{ list 0/0 0 }} }}</p>
+					<p id="character-info-widget-def-p">{{ _ character-info-widget-def-p }}</p>
+					<ol id="character-info-widget-info">
+						<li>{{ _ character-info-widget-info-default }}</li>
+					</ol>
+				</div>
+			</section>
+			<script src="https://cdn.jsdelivr.net/npm/hanzi-writer/dist/hanzi-writer.min.js"></script>
+			<section id="start-button-writer-section">
+				<button id="start-button" class="card-button-edit centered character-prop large-button-text" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" spellcheck="false">
+					{{ _ start-button }}
+				</button>
+				<!-- This image will get dynamically imported by main-page.js when the button is clicked
+				<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" id="character-target-div" class="centered character-div character-prop">
+					<line x1="0" y1="0" x2="100%" y2="100%" stroke="#DDD" />
+					<line x1="100%" y1="0" x2="0" y2="100%" stroke="#DDD" />
+					<line x1="50%" y1="0" x2="50%" y2="100%" stroke="#DDD" />
+					<line x1="0" y1="50%" x2="100%" y2="50%" stroke="#DDD" />
+				</svg>-->
+			</section>
 		</main>
 		<hr id="main-page-hr">
 		{{ include Components/footer.tmpl.html }}
 	</body>
+	<script src="./main-page.js"></script>
 </html>

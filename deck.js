@@ -1,12 +1,12 @@
 'use strict';
 
-var HOUR_UNIX = 36000000;
-var MINUTE_UNIX = 60000;
-var SECOND_UNIX = 1000;
+window.HOUR_UNIX = 36000000;
+window.MINUTE_UNIX = 60000;
+window.SECOND_UNIX = 1000;
 
 function updateExportButton()
 {
-	const dt = window.localStorageData["cards"];
+	const dt = window.localStorageData.cards;
 
 	let file = new Blob([JSON.stringify(dt)], { type: "application/json;charset=utf-8" });
 
@@ -18,13 +18,13 @@ function updateExportButton()
 }
 
 function importDeck(f) {
-	let bExecuted = confirm("Importing a deck WILL merge your current deck with the new one, to replace it first clear your current deck!");
+	let bExecuted = confirm(lc.import_deck_confirm_text);
 	if (bExecuted)
 	{
 		const reader = new FileReader();
 		reader.addEventListener("load", function(){
 			let dt = window.localStorageData;
-			dt["cards"].push.apply(dt["cards"], JSON.parse(this.result));
+			dt.cards.push.apply(dt.cards, JSON.parse(this.result.toString()));
 
 			saveToLocalStorage(dt);
 			document.location.reload();
@@ -34,11 +34,11 @@ function importDeck(f) {
 }
 
 function clearDeck() {
-	let bExecuted = confirm("Are you sure you want to DELETE the current deck, THIS CANNOT BE UNDONE! Export your data to save it just in case!");
+	let bExecuted = confirm(lc.clear_deck_confirm_text);
 	if (bExecuted)
 	{
 		let dt = window.localStorageData;
-		dt["cards"] = [];
+		dt.cards = [];
 
 		saveToLocalStorage(dt);
 		document.location.reload();
@@ -47,42 +47,43 @@ function clearDeck() {
 
 function setProfileCardData()
 {
-	document.getElementById("total-sessions-field").textContent += window.localStorageData["sessions"];
-	document.getElementById("streak-field").textContent += (window.localStorageData["streak"] + " days");
-	document.getElementById("deck-card-num-field").textContent += window.localStorageData["cards"].length;
+	$("total-sessions-field").textContent += window.localStorageData.sessions;
+	$("streak-field").textContent += (window.localStorageData.streak + lc.streak_field_days);
+	$("deck-card-num-field").textContent += window.localStorageData.cards.length;
+	$("deck-phrase-num-field").textContent += window.localStorageData.phrases.length;
 
-	let a = (window.localStorageData["totalTimeInSessions"] * 1);
+	let a = (window.localStorageData.totalTimeInSessions * 1);
 	let averageSessionLen = isNaN(a) ? 0 : a;
-	let sessionLenPostfix = "ms"
+	let sessionLenPostfix = lc.milliseconds;
 
 	// 1000 * 60 * 60 basically an hour
 	if (averageSessionLen > window.HOUR_UNIX)
 	{
-		sessionLenPostfix = "h"
+		sessionLenPostfix = lc.hours;
 		averageSessionLen /= window.HOUR_UNIX;
 	}
 	else if (averageSessionLen > window.MINUTE_UNIX)
 	{
-		sessionLenPostfix = "min"
+		sessionLenPostfix = lc.minutes;
 		averageSessionLen /= window.MINUTE_UNIX;
 	}
 	else if (averageSessionLen > window.SECOND_UNIX)
 	{
-		sessionLenPostfix = "sec";
+		sessionLenPostfix = lc.seconds;
 		averageSessionLen /= window.SECOND_UNIX;
 	}
 
-	let sessionLenTmp = averageSessionLen / window.localStorageData["sessions"];
+	let sessionLenTmp = averageSessionLen / window.localStorageData.sessions;
 	if (isNaN(sessionLenTmp))
 		sessionLenTmp = 0;
-	document.getElementById("average-session-length-field").textContent += (sessionLenTmp.toFixed(2).toString() + sessionLenPostfix);
-	document.getElementById("time-spent-in-sessions-field").textContent += (averageSessionLen.toFixed(2).toString() + sessionLenPostfix);
+	$("average-session-length-field").textContent += (sessionLenTmp.toFixed(2).toString() + sessionLenPostfix);
+	$("time-spent-in-sessions-field").textContent += (averageSessionLen.toFixed(2).toString() + sessionLenPostfix);
 
-	const lastDate = window.localStorageData["lastDate"];
-	if (lastDate != 0)
+	const lastDate = window.localStorageData.lastDate;
+	if (lastDate !== 0)
 	{
 		const date = new Date(lastDate);
-		document.getElementById("last-session-date-field").textContent += date.toLocaleDateString('en-GB',
+		$("last-session-date-field").textContent += date.toLocaleDateString(lc.locale,
 		{
 			weekday: "short",
 			year: "numeric",
@@ -93,70 +94,88 @@ function setProfileCardData()
 		});
 	}
 	else
-		document.getElementById("last-session-date-field").textContent += "No sessions yet recorded!";
+		$("last-session-date-field").textContent += lc.no_sessions_recorded;
 
-	const averageKnowledge = document.getElementById("average-knowledge-level-field");
+	const averageKnowledge = $("average-knowledge-level-field");
 	let knowledge = 0;
-	for (let i in window.localStorageData["cards"])
-		knowledge += window.localStorageData["cards"][i]["knowledge"];
+	for (let i in window.localStorageData.cards)
+		knowledge += window.localStorageData.cards[i].knowledge;
 
-	knowledge /= window.localStorageData["cards"].length;
+	knowledge /= window.localStorageData.cards.length;
 	if (isNaN(knowledge))
 		knowledge = 0;
-	averageKnowledge.textContent = `Average knowledge level: ${knowledge.toFixed(2)}/${window.MAX_KNOWLEDGE_LEVEL}`;
+	averageKnowledge.textContent = `${lc.average_knowledge_level}: ${knowledge.toFixed(2)}/${window.MAX_KNOWLEDGE_LEVEL}`;
 }
 
-function deckmain()
+// it - struct
+// index - used to create UUIDs. For normal cards, its offset by the number of phrases
+// constainer - container element
+// localIndex - non-unique index
+function constructCard(it, index, container, localIndex)
 {
-	setProfileCardData();
+	// Add parent div
+	let div = addElement("div", "", `card-container-${index}`, "card centered", "", container)
 
-	// Get the elements and load their onclick events, holy shit that's massive! That's what she said!
-	document.getElementById("export-deck-button").addEventListener("click", updateExportButton);
-	document.getElementById("clear-deck-button").addEventListener("click", clearDeck);
-	document.getElementById("import-deck-button").addEventListener("click", function(){
-		document.getElementById("fileupload").click();
-	});
-	document.getElementById("fileupload").addEventListener("change", importDeck);
+	// Add title, character render div and the definitions text
+	addElement("h3", `${it.name} ${it.knowledge}/${window.MAX_KNOWLEDGE_LEVEL}`, "", "", "", div);
+	const target = it["character"]
+									? addElement("div", "", `card-character-target-div-${index}`, "", "", div)
+									: addElement("h1", it.phrase, `card-character-target-div-${index}`, "phrase-card-header", "", div);
+	addElement("p", `${lc.deck_definitions}`, "", "", "", div);
 
-	const data = window.localStorageData;
-	let deck = document.getElementById("deck");
-
-	for (let val in data["cards"])
+	// Add the list to the card and fill it with elements
+	let list = addElement("ol", "", "", "", "", div);
+	for (let i in it.definitions)
 	{
-		const it = data["cards"][val];
+		let f = it.definitions[i];
+		addElement("li", `${f}`, "", "", "", list);
+	}
 
-		// Add parent div
-		let div = document.createElement("div");
-		div.className = "card centered";
-		div.id = `${val}`
-
-		// Add title, character render div and the definitions text
-		addElement("h3", `${it["name"]} ${it["knowledge"]}/${window.MAX_KNOWLEDGE_LEVEL}`, "", "", "", div);
-		const target = addElement("div", "", `card-character-target-div-${val}`, "", "", div);
-		addElement("p", "Definitions:", "", "", "", div);
-
-		// Add the list to the card and fill it with elements
-		let list = document.createElement("ol");
-		for (let i in it["definitions"])
+	// If it's a character find which phrases contain it
+	if (it["character"])
+	{
+		const data = window.localStorageData;
+		// Actual optimisation
+		if (data.phrases.length > 0)
 		{
-			let f = it["definitions"][i];
-			addElement("li", `${f}`, "", "", "", list);
+			// This is really not performant...
+			let paragraph = addElement("p", `${lc.part_of}:`, "", "", "", div);
+			let ol = document.createElement("ol");
+			let bPartOfPhrase = false;
+
+			for (let i in data.phrases)
+			{
+				if (data.phrases[i].phrase.includes(it.character))
+				{
+					bPartOfPhrase = true;
+					addElement("li", `${data.phrases[i].name}`, "", "", "", ol);
+				}
+			}
+
+			// Not ideal...
+			if (bPartOfPhrase)
+				div.appendChild(ol);
+			else
+				paragraph.remove();
 		}
-		div.appendChild(list);
+	}
 
-		// Create the "Edit" button and add an onclick event that redirects to the new card page
-		addElement("button", "Edit", `${val}`, "card-button-edit", "submit", div).addEventListener("click", function()
-		{
-			location.href = `./deck-edit-card.html?edit=${this.id}`;
-		});
+	// Create the "Edit" button and add an onclick event that redirects to the new card page
+	let editButton = addElement("button", lc.deck_card_edit, `card-edit-button-${index}`, "card-button-edit", `${localIndex}`, div)
+	editButton["phrase"] = it["phrase"] ? "phrase-" : ""; // If we're using phrases add this so that the callback can redirect correctly
+	editButton.addEventListener("click", function()
+	{
+		// In the line above, we store the card index in the "arbitrary-data" field. Here we retrieve it
+		location.href = `./deck-edit-card.html?${this.phrase}edit=${this.attributes["arbitrary-data"].nodeValue}`;
+	});
 
-		deck.appendChild(div);
-
+	if (it["character"])
+	{
 		// Create an instance of the writer
-		let writer = HanziWriter.create(`card-character-target-div-${val}`, it["character"],
+		let writer = HanziWriter.create(`card-character-target-div-${index}`, it.character + it.variant,
 		{
 			width: window.CARD_WRITER_SIZE,
-			heigt: window.CARD_WRITER_SIZE,
+			height: window.CARD_WRITER_SIZE,
 			padding: window.WRITER_PADDING,
 			showOutline: true,
 			strokeAnimationSpeed: window.CARD_WRITER_STROKE_ANIMATION_SPEED,
@@ -167,6 +186,53 @@ function deckmain()
 		{
 			writer.animateCharacter();
 		});
+	}
+}
+
+function deckmain()
+{
+	setProfileCardData();
+
+	// Get the elements and load their onclick events, holy shit that's massive! That's what she said!
+	$("export-deck-button").addEventListener("click", updateExportButton);
+	$("clear-deck-button").addEventListener("click", clearDeck);
+	$("import-deck-button").addEventListener("click", function(){
+		$("fileupload").click();
+	});
+	$("fileupload").addEventListener("change", importDeck);
+
+	const data = window.localStorageData;
+	let cardsContainer = $("deck-characters-section");
+	let phrasesContainer = $("deck-phrases-section");
+
+	// Remove phrases elements if none are available
+	if (data.phrases.length === 0)
+	{
+		$("deck-phrases-header").remove();
+		phrasesContainer.remove();
+	}
+	else // Load phrases
+	{
+		for (let val in data.phrases)
+		{
+			const it = data.phrases[val];
+			constructCard(it, val, phrasesContainer, val);
+		}
+	}
+
+	// Remove cards elements if none are available
+	if (data.cards.length === 0)
+	{
+		$("deck-characters-header").remove();
+		cardsContainer.remove();
+		return;
+	}
+
+	// Load normal cards
+	for (let val in data.cards)
+	{
+		const it = data.cards[val];
+		constructCard(it, val + data.phrases.length, cardsContainer, val);
 	}
 }
 

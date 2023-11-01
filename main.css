@@ -1,30 +1,48 @@
+/* Colours as CSS variables */
 :root {
 	--main-background-colour: #ffffff;
-	--main-accent-colour: #77ad78;
+	--main-accent-colour: #5c9ead;
 	--main-border-colour: #CCC;
 	--main-text-colour: #000000;
 }
 
+/* Remove body padding, otherwise bound calculations will be really hard */
+body {
+	padding: 0;
+	margin: 0;
+}
+
+/**
+ * Add padding to the side of the main block, because we still
+ * need some spacing from the border of the screen for good user
+ * experience
+ **/
+main {
+	/*padding-left: 0.5rem;*/
+	/*padding-right: 0.5rem;*/
+	box-sizing: border-box;
+	--main-padding-width: 1rem;
+}
+
+.article {
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+
+#start-button-writer-section {
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+
+/* Set the background and accent colour */
 * {
 	background-color: var(--main-background-colour);
 	accent-color: var(--main-accent-colour);
 }
 
-html {
-	height: 100%;
-}
-
-#main-body {
-	display: flex;
-	flex-flow: column;
-	height: 100%;
-	margin-bottom: 0px;
-	margin-top: 0px;
-}
-
+/* Set font family for basically all text we use */
 h1, h2, h3, h4, h5, h6, p, li {
-	font-family: 'Sofia Sans', sans-serif;
-	font-size: 18px;
+	font-family: 'Ubuntu', sans-serif;
 }
 
 a {
@@ -32,6 +50,7 @@ a {
 	color: var(--main-accent-colour);
 }
 
+/* Make the ul and footer to be contatiners for a horizontal list */
 ul, footer {
 	list-style: none;
 	padding: 0;
@@ -58,16 +77,24 @@ ul li a {
 	line-height: 1.5;
 }
 
-#main-page-text {
-	
+/**
+ * Divide the main page into 2 parts, 25% for the sidebar and 75% for the writer widget. 
+ * This is only applies in landscape mode.
+ **/
+#main-page {
+	display: grid;
+	gap: 0;
+	grid-template-columns: 25% 75%;
+	grid-auto-rows: 100%;
 }
 
-#main-page {
-	flex: 1 1 auto;
-	display: grid;
-	gap: 0rem;
-	grid-template-columns: 25% 50% 25%;
-	grid-auto-rows: 100%;
+/**
+ * Settings for the SVG that will be used by the writer
+ */
+.character-prop {
+	border: 2px solid var(--main-border-colour);
+	margin: auto;
+	position: relative;
 }
 
 /* This may cause problems, check out main-page.js on top of the definition of the "getDrawElementHeight" function */
@@ -84,6 +111,7 @@ footer p, footer select {
 	color: var(--main-text-colour);
 }
 
+/* Make sure selects are border boxes */
 select::before, select::after {
 	box-sizing: border-box;
 }
@@ -110,16 +138,61 @@ select {
 	resize: horizontal;
 }
 
+/* IDK what this does but why not keep it */
 select::-ms-expand {
 	display: none;
 }
 
+/* Make options flex-boxes */
 option {
 	display: flex;
 	min-width: 0;
 	flex-direction: row;
 	border-color: red;
 	box-sizing: border-box;
+}
+
+/* Only display the right border on landscape since on portrait elements are not inline */
+@media (orientation: landscape) {
+	#main-page-info-container {
+		border-right: 1px solid var(--main-border-colour);
+	}
+
+	#main-page-info-container div {
+		border-bottom: 1px solid var(--main-border-colour);
+	}
+}
+
+@media (orientation: portrait) {
+	#main-page-info-container {
+		float: left;
+		position: relative;
+		display: flex;
+		align-items: left;
+
+		width: 100%;
+		padding: 0;
+		overflow: hidden;
+		margin-bottom: 0.5rem;
+		border-bottom: 1px solid var(--main-border-colour);
+	}
+
+	#main-page-info-container div {
+		max-width: 50%;
+	}
+
+	#phrase-info-widget {
+		border-right: 1px solid var(--main-border-colour);
+	}
+}
+
+#phrase-info-widget {
+	display: none;
+}
+
+/* Reduce margins for the text on the character info */
+#main-page-info-container p, #main-page-info-container ol {
+	margin: 3px 0.5rem;
 }
 
 /* Style the hr element is stupid can confirm, why have an hr? because a border on the footer will break */
@@ -131,9 +204,9 @@ option {
 	background-color: var(--main-border-colour);
 }
 
-
 /* Add a border to make the user not think or be distracted by the titlebar */
 header {
+	margin-top: 0.25rem;
 	border-bottom: 1px solid var(--main-border-colour);
 }
 
@@ -163,6 +236,7 @@ header {
 	margin: auto;
 }
 
-footer {
-	flex: 0 1 content;
+/* This is the button you use to start a session */
+#start-button, #start-button-writer-section {
+	margin: auto;
 }

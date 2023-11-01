@@ -1,14 +1,20 @@
 localhost-commands:
-  - python3 -m http.server
+  - python3 -m http.server 7000
 allowed-extensions:
   - html
+  - js
+  - yaml
+  - yml
 filename-blacklist:
   - .git
   - UBTCustomFunctions
   - UVKBuildTool
   - .github
+  - .idea
+  - .vs
+  - Translations
 intermediate-extensions:
   - .tmpl.html
 variables:
   - var: trademark
-    val: LitTok
+    val: BGKS

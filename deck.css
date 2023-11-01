@@ -1,14 +1,20 @@
+/* Set deck-specific colours */
 :root {
-	--deck-card-active-colour: #6f8f72;
-	--deck-card-header-colour: #555555;
+	--deck-button-active-colour: #27476e;
+	--deck-card-text-colour: #555555;
 }
 
-#deck, #deck-community {
+/* Display the deck or marketplace as a grid of cards */
+.deck, #deck-community {
 	display: grid;
-	gap: 1rem;
+	gap: 0.5rem;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	box-sizing: border-box;
 }
 
+/* Add border to the cards for better UI/UX */
 .card {
 	border: 1px solid var(--main-border-colour);
 }
@@ -17,7 +23,7 @@
 .card-button-edit {
 	color: var(--main-background-colour);
 	background-color: var(--main-accent-colour);
-	border-color: var(--deck-card-active-colour);
+	border-color: var(--deck-button-active-colour);
 
 	margin-top: 12px;
 	margin-bottom: 12px;
@@ -36,28 +42,31 @@
 }
 
 .card-button-edit:hover {
-	color: var(--main-text-colour);
-	background-color: var(--deck-card-active-colour);
-	border-color: var(--deck-card-active-colour);
+	color: var(--main-background-colour);
+	background-color: var(--deck-button-active-colour);
+	border-color: var(--deck-button-active-colour);
 }
 
 .card-button-edit:active {
 	border-color: var(--main-accent-colour);
-	background-color: var(--deck-card-active-colour);
+	background-color: var(--deck-button-active-colour);
 }
 
+/* Some buttons, like the start button may require large text*/
 .large-button-text {
 	font-size: 32px;
 	border: 6px solid transparent;
 	border-radius: 12px;
 }
 
+/* TF is this??? */
 button {
 	text-transform: visible;
 	overflow: visible;
 	-webkit-appearance: button;
 }
 
+/* Make small buttons smaller */
 .small-button {
 	padding-left: 5px;
 	padding-right: 5px;
@@ -71,6 +80,7 @@ main {
 	width: 100%;
 }
 
+/* Configure unordered lists to be left-aligned with some padding and deciman numbers */
 ol {
 	list-style: none;
 	text-align: left;
@@ -90,9 +100,15 @@ ol li {
 
 #new-card-header {
 	font-size: 7.5rem;
-	color: var(--deck-card-header-colour);
+	color: var(--deck-card-text-colour);
 }
 
+.phrase-card-header {
+	font-size: 2.25rem;
+	color: var(--deck-card-text-colour);
+}
+
+/* Hide the default file upload widget */
 #fileupload {
 	display: block;
 	visibility: hidden;
@@ -100,6 +116,8 @@ ol li {
 	height: 0;
 }
 
+/* Make the input mode container a flexbox */
+/*
 #input-mode {
 	padding: 0;
 	margin: auto;
@@ -108,27 +126,65 @@ ol li {
 	position: relative;
 	display: flex;
 	align-items: center;
-	width: 100%;
+	max-width: 35%;
 	justify-content: center;
 }
 
 #input-mode p {
 	margin-right: 6px;
+}*/
+
+#input-mode, #navigation-footer {
+	width: fit-content;
+	padding: 0;
+	margin: auto;
+	overflow: hidden;
+}
+
+#input-mode * {
+	float: left;
+	position: relative;
+	display: flex;
+	align-items: center;
+	margin-top: 1em;
 }
 
 * {
-	font-family: 'Sofia Sans', sans-serif;
+	font-family: 'Ubuntu', sans-serif;
 }
 
+/* Configure input text fields to be border boxes */
 input[type=text]::before, input[type=text]::after, input[type=text] {
 	box-sizing: border-box;
 }
 
+/* Configure input text fields to follow our style */
 input[type=text] {
+	max-width: 85%;
 	font-size: 16px;
 	font-family: inherit;
 	padding: 4 0 0 0;
 	background-color: var(--main-background-colour);
 	border: 1px solid var(--main-accent-colour);
 	border-radius: 4px;
+}
+
+/* This is for dividing the deck edit card input mode into a simple grid*/
+#input-mode-internal {
+	display: grid;
+	gap: 0;
+	grid-template-columns: 1fr 1fr;
+	padding: 0;
+	margin-top: 1em;
+	box-sizing: border-box;
+}
+
+/* Do not configure margin because yes */
+#input-mode-internal div {
+	margin: auto;
+	margin-top: 0;
+}
+
+#input-mode-internal input[type=radio] {
+	margin-top: 0;
 }
